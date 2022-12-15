@@ -897,7 +897,7 @@ public:
     case CapabilityGroupNonUniformShuffle:
     case CapabilityGroupNonUniformShuffleRelative:
     case CapabilityGroupNonUniformClustered:
-      return VersionNumber::SPIRV_1_3;
+      return static_cast<SPIRVWord>(VersionNumber::SPIRV_1_2);
 
     case CapabilityNamedBarrier:
     case CapabilitySubgroupDispatch:
