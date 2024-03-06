@@ -679,7 +679,6 @@ void SPIRVExecutionMode::decode(std::istream &I) {
   case ExecutionModeSchedulerTargetFmaxMhzINTEL:
   case ExecutionModeRegisterMapInterfaceINTEL:
   case ExecutionModeStreamingInterfaceINTEL:
-  case spv::internal::ExecutionModeNamedSubgroupSizeINTEL:
   case ExecutionModeMaximumRegistersINTEL:
   case ExecutionModeMaximumRegistersIdINTEL:
   case ExecutionModeNamedMaximumRegistersINTEL:

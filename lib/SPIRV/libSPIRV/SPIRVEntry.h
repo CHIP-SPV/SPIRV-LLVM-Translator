@@ -708,6 +708,17 @@ public:
     }
   }
 
+  std::optional<ExtensionID> getRequiredExtension() const override {
+    switch (static_cast<unsigned>(ExecMode)) {
+    case ExecutionModeMaximumRegistersINTEL:
+    case ExecutionModeMaximumRegistersIdINTEL:
+    case ExecutionModeNamedMaximumRegistersINTEL:
+      return ExtensionID::SPV_INTEL_maximum_registers;
+    default:
+      return {};
+    }
+  }
+
 protected:
   _SPIRV_DCL_ENCDEC
   SPIRVExecutionModeKind ExecMode;
