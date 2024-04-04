@@ -2189,10 +2189,10 @@ public:
     updateModuleVersion();
   }
 
-  VersionNumber getRequiredSPIRVVersion() const override {
+  SPIRVWord getRequiredSPIRVVersion() const override {
     if (getSrcAlignment())
-      return VersionNumber::SPIRV_1_4;
-    return VersionNumber::SPIRV_1_0;
+      return static_cast<SPIRVWord>(VersionNumber::SPIRV_1_4);
+    return static_cast<SPIRVWord>(VersionNumber::SPIRV_1_0);
   }
 
   SPIRVValue *getSource() { return getValue(Source); }
