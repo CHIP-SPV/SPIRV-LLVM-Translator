@@ -101,7 +101,7 @@ public:
       return VersionNumber::SPIRV_1_1;
     case DecorationUserSemantic:
     case DecorationCounterBuffer:
-      return VersionNumber::SPIRV_1_4;
+      return static_cast<SPIRVWord>(VersionNumber::SPIRV_1_4);
 
     default:
       return VersionNumber::SPIRV_1_0;
