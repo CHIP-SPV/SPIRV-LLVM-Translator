@@ -2238,22 +2238,7 @@ Value *SPIRVToLLVM::transValueWithoutDecoration(SPIRVValue *BV, Function *F,
   }
   case OpCopyLogical: {
     SPIRVCopyLogical *CL = static_cast<SPIRVCopyLogical *>(BV);
-
-    auto *SrcTy = transType(CL->getOperand()->getType());
-    auto *DstTy = transType(CL->getType());
-
-    assert(M->getDataLayout().getTypeStoreSize(SrcTy).getFixedValue() ==
-               M->getDataLayout().getTypeStoreSize(DstTy).getFixedValue() &&
-           "Size mismatch in OpCopyLogical");
-
-    IRBuilder<> Builder(BB);
-
-    auto *SrcAI = Builder.CreateAlloca(SrcTy);
-    Builder.CreateAlignedStore(transValue(CL->getOperand(), F, BB), SrcAI,
-                               SrcAI->getAlign());
-
-    auto *LI = Builder.CreateAlignedLoad(DstTy, SrcAI, SrcAI->getAlign());
-    return mapValue(BV, LI);
+    return mapValue(BV, transSPIRVBuiltinFromInst(CL, BB));
   }
 
   case OpAccessChain:
