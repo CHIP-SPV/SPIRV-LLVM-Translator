@@ -691,10 +691,10 @@ protected:
       assert(0 && "Invalid op code!");
     }
   }
-  VersionNumber getRequiredSPIRVVersion() const override {
+  SPIRVWord getRequiredSPIRVVersion() const override {
     if (isBinaryPtrOpCode(OpCode))
-      return VersionNumber::SPIRV_1_4;
-    return VersionNumber::SPIRV_1_0;
+      return static_cast<SPIRVWord>(VersionNumber::SPIRV_1_4);
+    return static_cast<SPIRVWord>(VersionNumber::SPIRV_1_0);
   }
 };
 
