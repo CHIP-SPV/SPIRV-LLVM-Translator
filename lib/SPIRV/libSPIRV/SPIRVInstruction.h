@@ -3105,10 +3105,10 @@ private:
     llvm_unreachable("No mapping for argument type to capability.");
   }
 
-  VersionNumber getRequiredSPIRVVersion() const override {
+  SPIRVWord getRequiredSPIRVVersion() const override {
     if (Module->isAllowedToUseVersion(VersionNumber::SPIRV_1_6))
-      return VersionNumber::SPIRV_1_6;
-    return VersionNumber::SPIRV_1_0;
+      return static_cast<SPIRVWord>(VersionNumber::SPIRV_1_6);
+    return static_cast<SPIRVWord>(VersionNumber::SPIRV_1_0);
   }
 };
 
