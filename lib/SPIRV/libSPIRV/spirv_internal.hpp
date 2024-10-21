@@ -89,7 +89,6 @@ enum InternalOp {
   IOpCooperativeMatrixPrefetchINTEL = 6449,
   IOpConvertHandleToImageINTEL = 6529,
   IOpConvertHandleToSamplerINTEL = 6530,
-  IOpConvertHandleToSampledImageINTEL = 6531,
   IOpPrev = OpMax - 2,
   IOpForward
 };
@@ -125,7 +124,8 @@ enum InternalCapability {
   ICapabilityJointMatrixPackedInt2ComponentTypeINTEL = 6438,
   ICapabilityJointMatrixPackedInt4ComponentTypeINTEL = 6439,
   ICapabilityCacheControlsINTEL = 6441,
-  ICapRegisterLimitsINTEL = 6460
+  ICapRegisterLimitsINTEL = 6460,
+  ICapabilityBindlessImagesINTEL = 6528
 };
 
 enum InternalFunctionControlMask { IFunctionControlOptNoneINTELMask = 0x10000 };
@@ -227,19 +227,9 @@ _SPIRV_OP(Op, RoundFToTF32INTEL)
 
 _SPIRV_OP(Capability, CacheControlsINTEL)
 
-_SPIRV_OP(Capability, SubgroupRequirementsINTEL)
-
-_SPIRV_OP(Capability, TaskSequenceINTEL)
-_SPIRV_OP(Op, TaskSequenceCreateINTEL)
-_SPIRV_OP(Op, TaskSequenceAsyncINTEL)
-_SPIRV_OP(Op, TaskSequenceGetINTEL)
-_SPIRV_OP(Op, TaskSequenceReleaseINTEL)
-_SPIRV_OP(Op, TypeTaskSequenceINTEL)
-
 _SPIRV_OP(Capability, BindlessImagesINTEL)
 _SPIRV_OP(Op, ConvertHandleToImageINTEL)
 _SPIRV_OP(Op, ConvertHandleToSamplerINTEL)
-_SPIRV_OP(Op, ConvertHandleToSampledImageINTEL)
 #undef _SPIRV_OP
 
 constexpr SourceLanguage SourceLanguagePython =

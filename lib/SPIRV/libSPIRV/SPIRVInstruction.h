@@ -3973,86 +3973,6 @@ protected:
 _SPIRV_OP(ReadClockKHR)
 #undef _SPIRV_OP
 
-class SPIRVTaskSequenceINTELInstBase : public SPIRVInstTemplateBase {
-public:
-  std::optional<ExtensionID> getRequiredExtension() const override {
-    return ExtensionID::SPV_INTEL_task_sequence;
-  }
-};
-
-class SPIRVTaskSequenceINTELInst : public SPIRVTaskSequenceINTELInstBase {
-public:
-  SPIRVCapVec getRequiredCapability() const override {
-    return getVec(internal::CapabilityTaskSequenceINTEL);
-  }
-};
-
-class SPIRVTaskSequenceCreateINTELInst : public SPIRVTaskSequenceINTELInst {
-protected:
-  void validate() const override {
-    SPIRVInstruction::validate();
-    std::string InstName = "TaskSequenceCreateINTEL";
-    SPIRVErrorLog &SPVErrLog = this->getModule()->getErrorLog();
-
-    SPIRVType *ResTy = this->getType();
-    SPVErrLog.checkError(
-        ResTy->isTypeTaskSequenceINTEL(), SPIRVEC_InvalidInstruction,
-        InstName + "\nResult must be TaskSequenceINTEL type\n");
-
-    SPIRVValue *Func =
-        const_cast<SPIRVTaskSequenceCreateINTELInst *>(this)->getOperand(0);
-    SPVErrLog.checkError(
-        Func->getOpCode() == OpFunction, SPIRVEC_InvalidInstruction,
-        InstName + "\nFirst argument is expected to be a function.\n");
-
-    SPIRVConstant *PipelinedConst = static_cast<SPIRVConstant *>(
-        const_cast<SPIRVTaskSequenceCreateINTELInst *>(this)->getOperand(1));
-    const int Pipelined = PipelinedConst->getZExtIntValue();
-    SPVErrLog.checkError(Pipelined >= -1, SPIRVEC_InvalidInstruction,
-                         InstName + "\nPipeline must be a 32 bit integer with "
-                                    "the value bigger or equal to -1.\n");
-
-    const int ClusterMode =
-        static_cast<SPIRVConstant *>(
-            const_cast<SPIRVTaskSequenceCreateINTELInst *>(this)->getOperand(2))
-            ->getZExtIntValue();
-    SPVErrLog.checkError(
-        ClusterMode >= -1 && ClusterMode <= 1, SPIRVEC_InvalidInstruction,
-        InstName + "\nClusterMode valid values are -1, 0, 1.\n");
-
-    const int GetCapacity =
-        static_cast<SPIRVConstant *>(
-            const_cast<SPIRVTaskSequenceCreateINTELInst *>(this)->getOperand(3))
-            ->getZExtIntValue();
-    SPVErrLog.checkError(
-        GetCapacity >= 0, SPIRVEC_InvalidInstruction,
-        InstName + "\nGetCapacity must be an unsigned 32-bit integer.\n");
-
-    const int AsyncCapacity =
-        static_cast<SPIRVConstant *>(
-            const_cast<SPIRVTaskSequenceCreateINTELInst *>(this)->getOperand(4))
-            ->getZExtIntValue();
-    SPVErrLog.checkError(
-        AsyncCapacity >= 0, SPIRVEC_InvalidInstruction,
-        InstName + "\nAsyncCapacity must be an unsigned 32-bit integer.\n");
-  }
-};
-
-#define _SPIRV_OP(x, ...)                                                      \
-  typedef SPIRVInstTemplate<SPIRVTaskSequenceINTELInst,                        \
-                            internal::Op##x##INTEL, __VA_ARGS__>               \
-      SPIRV##x##INTEL;
-_SPIRV_OP(TaskSequenceAsync, false, 2, true)
-_SPIRV_OP(TaskSequenceGet, true, 4, false)
-_SPIRV_OP(TaskSequenceRelease, false, 2, false)
-#undef _SPIRV_OP
-#define _SPIRV_OP(x, ...)                                                      \
-  typedef SPIRVInstTemplate<SPIRVTaskSequenceCreateINTELInst,                  \
-                            internal::Op##x##INTEL, __VA_ARGS__>               \
-      SPIRV##x##INTEL;
-_SPIRV_OP(TaskSequenceCreate, true, 8, false, 1, 2, 3, 4)
-#undef _SPIRV_OP
-
 template <Op OC> class SPIRVBindlessImagesInstBase : public SPIRVUnaryInst<OC> {
 protected:
   SPIRVCapVec getRequiredCapability() const override {
@@ -4102,9 +4022,7 @@ protected:
     SPVErrLog.checkError(
         (ResTy->isTypeImage() && OC == internal::OpConvertHandleToImageINTEL) ||
             (ResTy->isTypeSampler() &&
-             OC == internal::OpConvertHandleToSamplerINTEL) ||
-            (ResTy->isTypeSampledImage() &&
-             OC == internal::OpConvertHandleToSampledImageINTEL),
+             OC == internal::OpConvertHandleToSamplerINTEL),
         SPIRVEC_InvalidInstruction,
         InstName + "\nIncorrect return type of the instruction must be "
                    "image/sampler\n");
@@ -4114,7 +4032,6 @@ protected:
   typedef SPIRVBindlessImagesInstBase<internal::Op##x> SPIRV##x;
 _SPIRV_OP(ConvertHandleToImageINTEL)
 _SPIRV_OP(ConvertHandleToSamplerINTEL)
-_SPIRV_OP(ConvertHandleToSampledImageINTEL)
 #undef _SPIRV_OP
 
 } // namespace SPIRV
