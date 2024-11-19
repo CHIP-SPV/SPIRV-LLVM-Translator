@@ -1551,8 +1551,8 @@ private:
 
 class SPIRVSizeOfInstBase : public SPIRVInstTemplateBase {
 protected:
-  VersionNumber getRequiredSPIRVVersion() const override {
-    return VersionNumber::SPIRV_1_1;
+  SPIRVWord getRequiredSPIRVVersion() const override {
+    return static_cast<SPIRVWord>(VersionNumber::SPIRV_1_1);
   }
 };
 
