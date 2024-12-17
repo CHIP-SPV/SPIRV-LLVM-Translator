@@ -4489,18 +4489,6 @@ bool SPIRVToLLVM::transMetadata() {
           ConstantAsMetadata::get(getUInt32(M, EM->getLiterals()[0]));
       F->setMetadata(kSPIR2MD::SubgroupSize, MDNode::get(*Context, SizeMD));
     }
-    // Generate metadata for intel_reqd_sub_group_size
-    if (BF->getExecutionMode(internal::ExecutionModeNamedSubgroupSizeINTEL)) {
-      // For now, there is only one named sub group size: primary, which is
-      // represented as a value of 0 as the argument of the OpExecutionMode.
-      assert(BF->getExecutionMode(internal::ExecutionModeNamedSubgroupSizeINTEL)
-                     ->getLiterals()[0] == 0 &&
-             "Invalid named sub group size");
-      // On the LLVM IR side, this is represented as the metadata
-      // intel_reqd_sub_group_size with value -1.
-      auto *SizeMD = ConstantAsMetadata::get(getInt32(M, -1));
-      F->setMetadata(kSPIR2MD::SubgroupSize, MDNode::get(*Context, SizeMD));
-    }
     // Generate metadata for SubgroupsPerWorkgroup/SubgroupsPerWorkgroupId.
     auto EmitSubgroupsPerWorkgroupMD = [this, F](SPIRVExecutionModeKind EMK,
                                                  uint64_t Value) {
