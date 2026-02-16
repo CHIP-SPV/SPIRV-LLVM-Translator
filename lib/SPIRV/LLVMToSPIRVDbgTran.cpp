@@ -899,7 +899,7 @@ LLVMToSPIRVDbgTran::transDbgSubroutineType(const DISubroutineType *FT) {
   SPIRVWordVec Ops(MinOperandCount);
   Ops[FlagsIdx] = transDebugFlags(FT);
 
-  DITypeArray Types = FT->getTypeArray();
+  DITypeRefArray Types = FT->getTypeArray();
   const size_t NumElements = Types.size();
   if (NumElements) {
     Ops.resize(1 + NumElements);
