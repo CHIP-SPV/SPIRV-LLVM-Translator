@@ -1682,6 +1682,10 @@ SPIRVValue *LLVMToSPIRVBase::transUnaryInst(UnaryInstruction *U,
           "Casts from generic address space to constant are illegal\n");
       BOC = OpGenericCastToPtr;
     }
+  } else if (U->getOpcode() == Instruction::PtrToAddr) {
+    // PtrToAddr (LLVM 23+) strips pointer provenance and returns the address
+    // as an integer. For SPIR-V, treat it the same as PtrToInt.
+    BOC = OpConvertPtrToU;
   } else {
     auto OpCode = U->getOpcode();
     BOC = OpCodeMap::map(OpCode);
